@@ -4,16 +4,25 @@ using Microsoft.AspNetCore.Mvc;
 [ApiController]
 public class CurrentWeatherController : ControllerBase
 {
-    // [HttpGet("{zipcode}")]
-    // public async Task<ActionResult<>> GetTodoItem(long id)
-    // {
-    //     var todoItem = await _context.TodoItems.FindAsync(id);
+    [HttpGet("{zipcode}")]
+    public async Task<ActionResult<WeatherForecast>> GetCurrentWeather(string zipcode)
+    {
+        var summaries = new[]
+        {
+            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
+        };
 
-    //     if (todoItem == null)
-    //     {
-    //         return NotFound();
-    //     }
+        // var forecast = Enumerable.Range(1, 5).Select(index =>
 
-    //     return todoItem;
-    // }
+        // .ToArray();
+
+        var forecast = new WeatherForecast
+        (
+            DateOnly.FromDateTime(DateTime.Now.AddDays(0)),
+            Random.Shared.Next(-20, 55),
+            summaries[Random.Shared.Next(summaries.Length)]
+        );
+
+        return forecast;
+    }
 }
