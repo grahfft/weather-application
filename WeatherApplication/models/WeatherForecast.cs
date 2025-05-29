@@ -1,15 +1,19 @@
 public class WeatherForecast
 {
-    public WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
+    public WeatherForecast(int currentTemperature, string unit, double lat, double lon, Boolean rainPossibleToday)
     {
-        this.Date = Date;
-        this.TemperatureC = TemperatureC;
-        this.Summary = Summary;
-        this.TemperatureF = (int)(TemperatureC / 0.5556);
+        this.CurrentTemperature = currentTemperature;
+        this.Unit = unit;
+        this.Lat = lat;
+        this.Lon = lon;
+        this.RainPossibleToday = rainPossibleToday;
     }
 
-    public DateOnly Date { get; }
-    public int TemperatureC { get; }
-    public string? Summary { get; }
-    public int TemperatureF { get; }
+    public int CurrentTemperature { get; }
+    public string Unit { get; }
+
+    public double Lat { get; }
+    public double Lon { get; }
+
+    public Boolean RainPossibleToday { get; }
 }

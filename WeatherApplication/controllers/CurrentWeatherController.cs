@@ -5,22 +5,15 @@ using Microsoft.AspNetCore.Mvc;
 public class CurrentWeatherController : ControllerBase
 {
     [HttpGet("{zipcode}")]
-    public async Task<ActionResult<WeatherForecast>> GetCurrentWeather(string zipcode)
+    public async Task<ActionResult<WeatherForecast>> GetCurrentWeather(string zipcode, string unit = "F")
     {
-        var summaries = new[]
-        {
-            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-        };
-
-        // var forecast = Enumerable.Range(1, 5).Select(index =>
-
-        // .ToArray();
-
         var forecast = new WeatherForecast
         (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(0)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
+            60,
+            unit,
+            45.67,
+            54.36,
+            true
         );
 
         return forecast;
