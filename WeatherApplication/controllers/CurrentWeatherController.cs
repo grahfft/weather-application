@@ -4,18 +4,15 @@ using Microsoft.AspNetCore.Mvc;
 [ApiController]
 public class CurrentWeatherController : ControllerBase
 {
-    [HttpGet("{zipcode}")]
-    public async Task<ActionResult<WeatherForecast>> GetCurrentWeather(string zipcode, string unit = "F")
+    private IWeatherService weatherService;
+    public CurrentWeatherController(IWeatherService weatherService)
     {
-        var forecast = new WeatherForecast
-        (
-            60,
-            unit,
-            45.67,
-            54.36,
-            true
-        );
+        this.weatherService = weatherService;
+    }
 
-        return forecast;
+    [HttpGet("{zipcode}")]
+    public ActionResult<WeatherForecast> GetCurrentWeather(string zipcode, string unit = "F")
+    {
+        return this.weatherService.getCurrentForecast(zipcode, unit);
     }
 }
