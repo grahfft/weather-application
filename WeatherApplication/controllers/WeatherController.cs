@@ -2,10 +2,10 @@ using Microsoft.AspNetCore.Mvc;
 
 [Route("/Weather/Current")]
 [ApiController]
-public class CurrentWeatherController : ControllerBase
+public class WeatherController : ControllerBase
 {
     private IWeatherService weatherService;
-    public CurrentWeatherController(IWeatherService weatherService)
+    public WeatherController(IWeatherService weatherService)
     {
         this.weatherService = weatherService;
     }
