@@ -24,3 +24,7 @@ Displays all endpoints of the service
 ```dotnet test```
 
 Executes tests within the test project
+
+### CLI commands
+
+Command base is `dotnet run --project weathercli --`
