@@ -32,7 +32,7 @@ public class RootWithNestedChildrenCliCommand
 
         public void Run(CliContext context)
         {
-            context.ShowValues();
+            
         }
     }
 }
