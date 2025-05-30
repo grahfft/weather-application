@@ -11,8 +11,8 @@ public class WeatherController : ControllerBase
     }
 
     [HttpGet("{zipcode}")]
-    public ActionResult<WeatherForecast> GetCurrentWeather(string zipcode, string unit = "F")
+    public ActionResult<WeatherForecast> GetCurrentWeather([FromRoute] GetCurrentWeatherRouteRequest route, [FromQuery] GetCurrentWeatherQueryRequest query)
     {
-        return this.weatherService.getCurrentForecast(zipcode, unit);
+        return this.weatherService.getCurrentForecast(route.zipcode, query.unit);
     }
 }
