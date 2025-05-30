@@ -24,7 +24,13 @@ public class GetCurrentWeatherTests
         var weatherService = new WeatherService(mockWeatherRepo.Object);
         var weatherController = new WeatherController(weatherService);
 
-        var response = weatherController.GetCurrentWeather("12345", "F");
+        var route = new GetCurrentWeatherRouteRequest();
+        route.zipcode = "12345";
+
+        var query = new GetCurrentWeatherQueryRequest();
+        query.unit = "F";
+
+        var response = weatherController.GetCurrentWeather(route,query);
         Assert.NotNull(response.Value);
         Assert.Equal(response.Value.CurrentTemperature, forecast.CurrentTemperature);
     }
@@ -48,7 +54,13 @@ public class GetCurrentWeatherTests
         var weatherService = new WeatherService(mockWeatherRepo.Object);
         var weatherController = new WeatherController(weatherService);
 
-        var response = weatherController.GetCurrentWeather("12345-1234", "F");
+        var route = new GetCurrentWeatherRouteRequest();
+        route.zipcode = "12345-1234";
+
+        var query = new GetCurrentWeatherQueryRequest();
+        query.unit = "C";
+
+        var response = weatherController.GetCurrentWeather(route,query);
         Assert.NotNull(response.Value);
         Assert.Equal(response.Value.CurrentTemperature, forecast.CurrentTemperature);
     }
