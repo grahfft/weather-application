@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "isRoot": true,
+  "tools": {
+    "localweathercli": {
+      "version": "1.0.6",
+      "commands": [
+        "localweathercli"
+      ],
+      "rollForward": false
+    }
+  }
+}
