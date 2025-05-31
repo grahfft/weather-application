@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeatherApplication", "Weath
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeatherApplication.Tests", "WeatherApplication.Tests\WeatherApplication.Tests.csproj", "{F6A389C7-F75E-4EF8-9596-8AB23B582723}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "weathercli", "weathercli\weathercli.csproj", "{B0DE3748-BCB1-4A3B-88CB-C76DC60DA411}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "localweathercli", "localweathercli\localweathercli.csproj", "{B0DE3748-BCB1-4A3B-88CB-C76DC60DA411}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
