@@ -9,8 +9,8 @@ public class WeatherService : IWeatherService
     {
         this.weatherRepository = weatherRepository;
     }
-    public async Task<WeatherForecast> getCurrentForecast(string zipcode, string unit)
+    public async Task<WeatherForecast> getCurrentForecastAsync(string zipcode, WeatherUnit unit)
     {
-        return await this.weatherRepository.getCurrentForecast(zipcode, unit);
+        return await this.weatherRepository.getCurrentForecastAsync(zipcode, unit);
     }
 }

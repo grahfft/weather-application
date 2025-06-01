@@ -1,5 +1,3 @@
-using System.Threading.Tasks;
-using Microsoft.Extensions.DependencyInjection;
 using Moq;
 
 namespace WeatherApplication.Tests;
@@ -19,7 +17,7 @@ public class GetCurrentWeatherTests
             );
         var mockWeatherRepo = new Mock<IWeatherRepository>();
         mockWeatherRepo
-            .Setup(mock => mock.getCurrentForecast(It.IsAny<string>(), It.IsAny<string>()))
+            .Setup(mock => mock.getCurrentForecastAsync(It.IsAny<string>(), It.IsAny<WeatherUnit>()))
             .Returns(Task.FromResult(forecast));
 
         var weatherService = new WeatherService(mockWeatherRepo.Object);
@@ -29,7 +27,7 @@ public class GetCurrentWeatherTests
         route.zipcode = "12345";
 
         var query = new GetCurrentWeatherQueryRequest();
-        query.unit = "F";
+        query.unit = WeatherUnit.Fahrenheit.ToString();
 
         var response = await weatherController.GetCurrentWeather(route,query);
         Assert.NotNull(response.Value);
@@ -49,7 +47,7 @@ public class GetCurrentWeatherTests
             );
         var mockWeatherRepo = new Mock<IWeatherRepository>();
         mockWeatherRepo
-            .Setup(mock => mock.getCurrentForecast(It.IsAny<string>(), It.IsAny<string>()))
+            .Setup(mock => mock.getCurrentForecastAsync(It.IsAny<string>(), It.IsAny<WeatherUnit>()))
             .Returns(Task.FromResult(forecast));
 
         var weatherService = new WeatherService(mockWeatherRepo.Object);
@@ -59,7 +57,7 @@ public class GetCurrentWeatherTests
         route.zipcode = "12345-1234";
 
         var query = new GetCurrentWeatherQueryRequest();
-        query.unit = "C";
+        query.unit = WeatherUnit.Celsius.ToString();
 
         var response = await weatherController.GetCurrentWeather(route,query);
         Assert.NotNull(response.Value);

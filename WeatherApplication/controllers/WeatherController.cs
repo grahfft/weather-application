@@ -17,7 +17,7 @@ public class WeatherController : ControllerBase
     {
         try
         {
-            return await this.weatherService.getCurrentForecast(route.zipcode, query.unit);
+            return await this.weatherService.getCurrentForecastAsync(route.zipcode, query.unit.ToWeatherUnit());
         }
         catch (Exception ex)
         {
