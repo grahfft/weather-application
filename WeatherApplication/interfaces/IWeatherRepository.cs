@@ -1,4 +1,4 @@
 public interface IWeatherRepository
 {
-    public Task<WeatherForecast> getCurrentForecast(string zipcode, string unit);
+    public Task<WeatherForecast> getCurrentForecastAsync(string zipcode, WeatherUnit unit);
 }
