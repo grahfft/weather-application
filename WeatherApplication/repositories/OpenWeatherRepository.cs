@@ -6,15 +6,7 @@ public class OpenWeatherRepository : IWeatherRepository
     private HttpClient client = new();
     public async Task<WeatherForecast> getCurrentForecastAsync(string zipcode, WeatherUnit unit)
     {
-        // TODO Create enum for easy mapping of Fahrenheit -> Imperial and back for unit mapping
-        var uriBuilder = new UriBuilder($"https://api.openweathermap.org/data/2.5/weather");
-        var parameters = HttpUtility.ParseQueryString(string.Empty);
-        parameters["zip"] = zipcode.Substring(0, 5);
-        parameters["appid"] = "";
-        parameters["units"] = unit.ToSystem().ToString();
-        uriBuilder.Query = parameters.ToString();
-
-        Uri uri = uriBuilder.Uri;
+        var uri = this.buildUri(zipcode, unit);
         var response = await this.client.GetAsync(uri);
         var jsonResponse = await response.Content.ReadAsStringAsync();
         var openWeatherForecast = System.Text.Json.JsonSerializer.Deserialize<OpenWeatherForecast>(jsonResponse);
@@ -32,5 +24,19 @@ public class OpenWeatherRepository : IWeatherRepository
                 openWeatherForecast.coord.lon,
                 openWeatherForecast.weather.Exists(report => report.main == "Rain" || report.main == "Drizzle")
             );
+    }
+
+    private Uri buildUri(string zipcode, WeatherUnit unit, int count = 1)
+    {
+        var uriBuilder = new UriBuilder($"https://api.openweathermap.org/data/2.5/weather");
+        var parameters = HttpUtility.ParseQueryString(string.Empty);
+
+        parameters["zip"] = zipcode.Substring(0, 5);
+        parameters["appid"] = Environment.GetEnvironmentVariable("OpenWeatherAppId");
+        parameters["units"] = unit.ToSystem().ToString();
+        parameters["cnt"] = count.ToString();
+
+        uriBuilder.Query = parameters.ToString();
+        return uriBuilder.Uri;
     }
 }
