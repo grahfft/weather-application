@@ -10,7 +10,7 @@ public class OpenWeatherRepository : IWeatherRepository
         var uriBuilder = new UriBuilder($"https://api.openweathermap.org/data/2.5/weather");
         var parameters = HttpUtility.ParseQueryString(string.Empty);
         parameters["zip"] = zipcode.Substring(0, 5);
-        parameters["appid"] = "4783376f20ba8dec300467cb4d4cb209";
+        parameters["appid"] = "";
         parameters["units"] = "imperial";
         uriBuilder.Query = parameters.ToString();
 
