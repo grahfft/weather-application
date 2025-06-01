@@ -1,4 +1,5 @@
 using System.Net;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 
 [Route("/Weather/Current")]
@@ -12,11 +13,11 @@ public class WeatherController : ControllerBase
     }
 
     [HttpGet("{zipcode}")]
-    public ActionResult<WeatherForecast> GetCurrentWeather([FromRoute] GetCurrentWeatherRouteRequest route, [FromQuery] GetCurrentWeatherQueryRequest query)
+    public async Task<ActionResult<WeatherForecast>> GetCurrentWeather([FromRoute] GetCurrentWeatherRouteRequest route, [FromQuery] GetCurrentWeatherQueryRequest query)
     {
         try
         {
-            return this.weatherService.getCurrentForecast(route.zipcode, query.unit);
+            return await this.weatherService.getCurrentForecast(route.zipcode, query.unit);
         }
         catch (Exception ex)
         {

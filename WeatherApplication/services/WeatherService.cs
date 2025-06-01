@@ -1,4 +1,5 @@
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 public class WeatherService : IWeatherService
 {
@@ -8,8 +9,8 @@ public class WeatherService : IWeatherService
     {
         this.weatherRepository = weatherRepository;
     }
-    public WeatherForecast getCurrentForecast(string zipcode, string unit)
+    public async Task<WeatherForecast> getCurrentForecast(string zipcode, string unit)
     {
-        return this.weatherRepository.getCurrentForecast(zipcode, unit);
+        return await this.weatherRepository.getCurrentForecast(zipcode, unit);
     }
 }
