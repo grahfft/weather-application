@@ -4,7 +4,13 @@ using Newtonsoft.Json;
 public class OpenWeatherRepository : IWeatherRepository
 {
     private HttpClient client = new();
-    public async Task<WeatherForecast> getCurrentForecastAsync(string zipcode, WeatherUnit unit)
+
+    public Task<AverageForecast> getAverageForecastAsync(string zipcode, WeatherUnit unit, int count)
+    {
+        throw new NotImplementedException();
+    }
+
+    public async Task<CurrentForecast> getCurrentForecastAsync(string zipcode, WeatherUnit unit)
     {
         var uri = this.buildUri(zipcode, unit);
         var response = await this.client.GetAsync(uri);
@@ -16,7 +22,7 @@ public class OpenWeatherRepository : IWeatherRepository
             throw new Exception("Unable to get and parse forecast from openweather");
         }
 
-        return new WeatherForecast
+        return new CurrentForecast
             (
                 (int)openWeatherForecast.main.temp,
                 unit.ToShorthand().ToString(),
