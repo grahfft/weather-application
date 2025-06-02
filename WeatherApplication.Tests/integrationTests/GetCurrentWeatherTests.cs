@@ -7,7 +7,7 @@ public class GetCurrentWeatherTests
     [Fact]
     public async Task GetCurrentWeather_ShouldReturnWeatherForecast()
     {
-        var forecast = new WeatherForecast
+        var forecast = new CurrentForecast
             (
                 60,
                 "F",
@@ -37,7 +37,7 @@ public class GetCurrentWeatherTests
     [Fact]
     public async Task GetCurrentWeather_ShouldReturnWeatherForecastFullZipcode()
     {
-        var forecast = new WeatherForecast
+        var forecast = new CurrentForecast
             (
                 60,
                 "F",
