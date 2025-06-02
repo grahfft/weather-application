@@ -1,5 +1,4 @@
 using System.Web;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Newtonsoft.Json;
 
 public class OpenWeatherRepository : IWeatherRepository
@@ -26,8 +25,6 @@ public class OpenWeatherRepository : IWeatherRepository
         var jsonResponse = await response.Content.ReadAsStringAsync();
         var openWeatherForecast = System.Text.Json.JsonSerializer.Deserialize<OpenWeatherForecast>(jsonResponse);
 
-        Console.WriteLine($"{JsonConvert.SerializeObject(response)}");
-
         return new CurrentForecast
             (
                 (int)openWeatherForecast.main.temp,
@@ -36,6 +33,12 @@ public class OpenWeatherRepository : IWeatherRepository
                 openWeatherForecast.coord.lon,
                 openWeatherForecast.weather.Exists(report => report.main == "Rain" || report.main == "Drizzle")
             );
+    }
+
+
+    public Task<AverageForecast> getAverageForecastAsync(string zipcode, WeatherUnit unit, int count)
+    {
+        throw new NotImplementedException();
     }
 
     private Uri buildUri(string baseAddress, string zipcode, WeatherUnit unit, int count = 1)

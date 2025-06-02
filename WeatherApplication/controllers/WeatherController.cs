@@ -58,24 +58,37 @@ public class WeatherController : ControllerBase
         [FromRoute] GetCurrentWeatherRouteRequest route, [
         FromQuery] GetCurrentWeatherQueryRequest query)
     {
-        throw new NotImplementedException("not set up");
-        // try
-        // {
-        //     return await this.weatherService.getAveragetForecastAsync(route.zipcode, query.Units.ToWeatherUnit(), 5);
-        // }
-        // catch (Exception ex)
-        // {
-        //     var problemDetails = new ProblemDetails
-        //     {
-        //         Status = (int)HttpStatusCode.InternalServerError,
-        //         Title = "Internal Server Error",
-        //         Detail = ex.Message,
-        //     };
+        try
+        {
+            return await this.weatherService.getAverageForecastAsync(route.zipcode, query.unit.ToWeatherUnit(), 5);
+        }
+        catch (ZipcodeNotFoundException ex)
+        {
+            var problemDetails = new ProblemDetails
+            {
+                Status = (int)HttpStatusCode.NotFound,
+                Title = "Zipcode Not Found",
+                Detail = ex.Message,
+            };
 
-        //     return new ObjectResult(problemDetails)
-        //     {
-        //         StatusCode = (int)HttpStatusCode.InternalServerError
-        //     };
-        // }
+            return new ObjectResult(problemDetails)
+            {
+                StatusCode = (int)HttpStatusCode.NotFound
+            };
+        }
+        catch (Exception ex)
+        {
+            var problemDetails = new ProblemDetails
+            {
+                Status = (int)HttpStatusCode.InternalServerError,
+                Title = "Internal Server Error",
+                Detail = ex.Message,
+            };
+
+            return new ObjectResult(problemDetails)
+            {
+                StatusCode = (int)HttpStatusCode.InternalServerError
+            };
+        }
     }
 }
