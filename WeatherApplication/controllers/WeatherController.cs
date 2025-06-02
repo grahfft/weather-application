@@ -13,7 +13,7 @@ public class WeatherController : ControllerBase
 
     [Route("/Weather/Current/{zipcode}")]
     [HttpGet]
-    public async Task<ActionResult<WeatherForecast>> GetCurrentWeather([FromRoute] GetCurrentWeatherRouteRequest route, [FromQuery] GetCurrentWeatherQueryRequest query)
+    public async Task<ActionResult<CurrentForecast>> GetCurrentWeather([FromRoute] GetCurrentWeatherRouteRequest route, [FromQuery] GetCurrentWeatherQueryRequest query)
     {
         try
         {
@@ -37,7 +37,7 @@ public class WeatherController : ControllerBase
 
     [Route("/Weather/Average/{zipcode}")]
     [HttpGet]
-    public async Task<ActionResult<WeatherForecast>> GetAverageForecast([FromRoute] GetCurrentWeatherRouteRequest route, [FromQuery] GetCurrentWeatherQueryRequest query)
+    public async Task<ActionResult<AverageForecast>> GetAverageForecast([FromRoute] GetCurrentWeatherRouteRequest route, [FromQuery] GetCurrentWeatherQueryRequest query)
     {
         throw new NotImplementedException("not set up");
         // try
