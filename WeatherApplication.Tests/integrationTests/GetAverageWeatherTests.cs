@@ -17,7 +17,7 @@ public class GetAverageWeatherTests
             );
         var mockWeatherRepo = new Mock<IWeatherRepository>();
         mockWeatherRepo
-            .Setup(mock => mock.getAverageForecastAsync(It.IsAny<string>(), It.IsAny<WeatherUnit>()))
+            .Setup(mock => mock.getAverageForecastAsync(It.IsAny<string>(), It.IsAny<WeatherUnit>(), It.IsAny<int>()))
             .Returns(Task.FromResult(forecast));
 
         var weatherService = new WeatherService(mockWeatherRepo.Object);
@@ -29,7 +29,7 @@ public class GetAverageWeatherTests
         var query = new GetCurrentWeatherQueryRequest();
         query.Units = WeatherUnit.Fahrenheit.ToString();
 
-        var response = await weatherController.GetCurrentWeather(route,query);
+        var response = await weatherController.GetAverageForecast(route,query);
         Assert.NotNull(response.Value);
         Assert.Equal(response.Value.AverageTemperature, forecast.AverageTemperature);
     }
@@ -47,7 +47,7 @@ public class GetAverageWeatherTests
             );
         var mockWeatherRepo = new Mock<IWeatherRepository>();
         mockWeatherRepo
-            .Setup(mock => mock.getAverageForecastAsync(It.IsAny<string>(), It.IsAny<WeatherUnit>()))
+            .Setup(mock => mock.getAverageForecastAsync(It.IsAny<string>(), It.IsAny<WeatherUnit>(), It.IsAny<int>()))
             .Returns(Task.FromResult(forecast));
 
         var weatherService = new WeatherService(mockWeatherRepo.Object);
@@ -59,7 +59,7 @@ public class GetAverageWeatherTests
         var query = new GetCurrentWeatherQueryRequest();
         query.Units = WeatherUnit.Celsius.ToString();
 
-        var response = await weatherController.GetCurrentWeather(route,query);
+        var response = await weatherController.GetAverageForecast(route,query);
         Assert.NotNull(response.Value);
         Assert.Equal(response.Value.AverageTemperature, forecast.AverageTemperature);
     }
