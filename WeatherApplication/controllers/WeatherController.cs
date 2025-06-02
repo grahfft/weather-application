@@ -19,6 +19,20 @@ public class WeatherController : ControllerBase
         {
             return await this.weatherService.getCurrentForecastAsync(route.zipcode, query.unit.ToWeatherUnit());
         }
+        catch (ZipcodeNotFoundException ex)
+        {
+            var problemDetails = new ProblemDetails
+            {
+                Status = (int)HttpStatusCode.NotFound,
+                Title = "Zipcode Not Found",
+                Detail = ex.Message,
+            };
+
+            return new ObjectResult(problemDetails)
+            {
+                StatusCode = (int)HttpStatusCode.NotFound
+            };
+        }
         catch (Exception ex)
         {
             var problemDetails = new ProblemDetails

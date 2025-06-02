@@ -1,4 +1,5 @@
 using System.Web;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Newtonsoft.Json;
 
 public class OpenWeatherRepository : IWeatherRepository
@@ -11,13 +12,21 @@ public class OpenWeatherRepository : IWeatherRepository
     {
         var uri = this.buildUri(CURRENT_FORECAST_ENDPOINT, zipcode, unit);
         var response = await this.client.GetAsync(uri);
+
+        if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
+        {
+            throw new ZipcodeNotFoundException("Zipcode not found");
+        }
+
+        if (!response.IsSuccessStatusCode)
+        {
+            throw new Exception("Failed to got a response from OpenWeather");
+        }
+
         var jsonResponse = await response.Content.ReadAsStringAsync();
         var openWeatherForecast = System.Text.Json.JsonSerializer.Deserialize<OpenWeatherForecast>(jsonResponse);
 
-        if (openWeatherForecast == null)
-        {
-            throw new Exception("Unable to get and parse forecast from openweather");
-        }
+        Console.WriteLine($"{JsonConvert.SerializeObject(response)}");
 
         return new CurrentForecast
             (
