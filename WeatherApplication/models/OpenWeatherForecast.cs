@@ -9,6 +9,8 @@ public class OpenWeatherCurrentForecast
 
 public class OpenWeatherAverageForecast
 {
+
+    public int cnt { get; set; }
     public List<FutureForecasts> list { get; set; }
 
     public City city { get; set; }

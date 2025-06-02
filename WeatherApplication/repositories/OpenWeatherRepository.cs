@@ -27,6 +27,11 @@ public class OpenWeatherRepository : IWeatherRepository
         var jsonResponse = await response.Content.ReadAsStringAsync();
         var openWeatherForecast = System.Text.Json.JsonSerializer.Deserialize<OpenWeatherCurrentForecast>(jsonResponse);
 
+        if (openWeatherForecast == null)
+        {
+            throw new Exception("Unable to parse OpenWeather response");
+        }
+
         return new CurrentForecast
             (
                 (int)openWeatherForecast.main.temp,
@@ -55,15 +60,28 @@ public class OpenWeatherRepository : IWeatherRepository
 
         var jsonResponse = await response.Content.ReadAsStringAsync();
         var openWeatherForecast = System.Text.Json.JsonSerializer.Deserialize<OpenWeatherAverageForecast>(jsonResponse);
-        Console.WriteLine($"{JsonConvert.SerializeObject(openWeatherForecast)}");
+
+        if (openWeatherForecast == null)
+        {
+            throw new Exception("Unable to parse OpenWeather response");
+        }
+
+        double total = 0.0;
+        bool rainPossible = false;
+
+        foreach (var forecast in openWeatherForecast.list)
+        {
+            total += forecast.main.temp;
+            rainPossible = rainPossible || forecast.weather.Exists(report => report.main == "Rain" || report.main == "Drizzle");
+        }
 
         return new AverageForecast
             (
-                60,
+                (int)total/openWeatherForecast.cnt,
                 unit.ToShorthand().ToString(),
-                71.83,
-                72.34,
-                false
+                openWeatherForecast.city.coord.lat,
+                openWeatherForecast.city.coord.lon,
+                rainPossible
             );
     }
 
