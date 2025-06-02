@@ -35,7 +35,7 @@ public class GetAverageWeatherTests
     }
 
     [Fact]
-    public async Task GetCurrentWeather_ShouldReturnWeatherForecastFullZipcode()
+    public async Task GetAverageWeather_ShouldReturnWeatherForecastFullZipcode()
     {
         var forecast = new AverageForecast
             (
