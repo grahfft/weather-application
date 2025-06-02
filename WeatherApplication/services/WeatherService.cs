@@ -1,6 +1,3 @@
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-
 public class WeatherService : IWeatherService
 {
     private IWeatherRepository weatherRepository;
@@ -9,7 +6,13 @@ public class WeatherService : IWeatherService
     {
         this.weatherRepository = weatherRepository;
     }
-    public async Task<WeatherForecast> getCurrentForecastAsync(string zipcode, WeatherUnit unit)
+
+    public async Task<AverageForecast> getAverageForecastAsync(string zipcode, WeatherUnit unit, int count)
+    {
+        return await this.weatherRepository.getAverageForecastAsync(zipcode, unit, count);
+    }
+
+    public async Task<CurrentForecast> getCurrentForecastAsync(string zipcode, WeatherUnit unit)
     {
         return await this.weatherRepository.getCurrentForecastAsync(zipcode, unit);
     }
