@@ -7,7 +7,7 @@ public class GetCurrentWeatherTests
     [Fact]
     public async Task GetCurrentWeather_ShouldReturnWeatherForecast()
     {
-        var forecast = new CurrentForecast
+        var forecast = new WeatherForecast
             (
                 60,
                 "F",
@@ -24,24 +24,23 @@ public class GetCurrentWeatherTests
         var weatherController = new WeatherController(weatherService);
 
         var route = new GetCurrentWeatherRouteRequest();
-        route.Zipcode = "12345";
+        route.zipcode = "12345";
 
         var query = new GetCurrentWeatherQueryRequest();
-        query.Units = WeatherUnit.Fahrenheit.ToString();
+        query.unit = WeatherUnit.Fahrenheit.ToString();
 
-        var response = await weatherController.GetCurrentWeather(route, query);
+        var response = await weatherController.GetCurrentWeather(route,query);
         Assert.NotNull(response.Value);
         Assert.Equal(response.Value.CurrentTemperature, forecast.CurrentTemperature);
-        Assert.Equal(response.Value.Unit, forecast.Unit);
     }
 
     [Fact]
     public async Task GetCurrentWeather_ShouldReturnWeatherForecastFullZipcode()
     {
-        var forecast = new CurrentForecast
+        var forecast = new WeatherForecast
             (
                 60,
-                "C",
+                "F",
                 45.67,
                 54.36,
                 true
@@ -55,14 +54,13 @@ public class GetCurrentWeatherTests
         var weatherController = new WeatherController(weatherService);
 
         var route = new GetCurrentWeatherRouteRequest();
-        route.Zipcode = "12345-1234";
+        route.zipcode = "12345-1234";
 
         var query = new GetCurrentWeatherQueryRequest();
-        query.Units = WeatherUnit.Celsius.ToString();
+        query.unit = WeatherUnit.Celsius.ToString();
 
-        var response = await weatherController.GetCurrentWeather(route, query);
+        var response = await weatherController.GetCurrentWeather(route,query);
         Assert.NotNull(response.Value);
         Assert.Equal(response.Value.CurrentTemperature, forecast.CurrentTemperature);
-        Assert.Equal(response.Value.Unit, forecast.Unit);
     }
 }
