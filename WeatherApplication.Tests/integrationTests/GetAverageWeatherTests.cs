@@ -26,8 +26,9 @@ public class GetAverageWeatherTests
         var route = new GetCurrentWeatherRouteRequest();
         route.zipcode = "12345";
 
-        var query = new GetCurrentWeatherQueryRequest();
+        var query = new GetAverageWeatherQueryRequest();
         query.unit = WeatherUnit.Fahrenheit.ToString();
+        query.count = 4;
 
         var response = await weatherController.GetAverageForecast(route,query);
         Assert.NotNull(response.Value);
@@ -56,8 +57,9 @@ public class GetAverageWeatherTests
         var route = new GetCurrentWeatherRouteRequest();
         route.zipcode = "12345-1234";
 
-        var query = new GetCurrentWeatherQueryRequest();
+        var query = new GetAverageWeatherQueryRequest();
         query.unit = WeatherUnit.Celsius.ToString();
+        query.count = 2;
 
         var response = await weatherController.GetAverageForecast(route,query);
         Assert.NotNull(response.Value);

@@ -55,12 +55,12 @@ public class WeatherController : ControllerBase
     [Route("/Weather/Average/{zipcode}")]
     [HttpGet]
     public async Task<ActionResult<AverageForecast>> GetAverageForecast(
-        [FromRoute] GetCurrentWeatherRouteRequest route, [
-        FromQuery] GetCurrentWeatherQueryRequest query)
+        [FromRoute] GetCurrentWeatherRouteRequest route,
+        [FromQuery] GetAverageWeatherQueryRequest query)
     {
         try
         {
-            return await this.weatherService.getAverageForecastAsync(route.zipcode, query.unit.ToWeatherUnit(), 5);
+            return await this.weatherService.getAverageForecastAsync(route.zipcode, query.unit.ToWeatherUnit(), query.count);
         }
         catch (ZipcodeNotFoundException ex)
         {
