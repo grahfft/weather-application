@@ -7,6 +7,8 @@ public class OpenWeatherRepository : IWeatherRepository
 
     private const string CURRENT_FORECAST_ENDPOINT = "https://api.openweathermap.org/data/2.5/weather";
 
+    private const string AVERAGE_FORECAST_ENDPOINT = "https://api.openweathermap.org/data/2.5/forecast";
+
     public async Task<CurrentForecast> getCurrentForecastAsync(string zipcode, WeatherUnit unit)
     {
         var uri = this.buildUri(CURRENT_FORECAST_ENDPOINT, zipcode, unit);
@@ -23,7 +25,7 @@ public class OpenWeatherRepository : IWeatherRepository
         }
 
         var jsonResponse = await response.Content.ReadAsStringAsync();
-        var openWeatherForecast = System.Text.Json.JsonSerializer.Deserialize<OpenWeatherForecast>(jsonResponse);
+        var openWeatherForecast = System.Text.Json.JsonSerializer.Deserialize<OpenWeatherCurrentForecast>(jsonResponse);
 
         return new CurrentForecast
             (
@@ -36,9 +38,33 @@ public class OpenWeatherRepository : IWeatherRepository
     }
 
 
-    public Task<AverageForecast> getAverageForecastAsync(string zipcode, WeatherUnit unit, int count)
+    public async Task<AverageForecast> getAverageForecastAsync(string zipcode, WeatherUnit unit, int count)
     {
-        throw new NotImplementedException();
+        var uri = this.buildUri(AVERAGE_FORECAST_ENDPOINT, zipcode, unit, count);
+        var response = await this.client.GetAsync(uri);
+
+        if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
+        {
+            throw new ZipcodeNotFoundException("Zipcode not found");
+        }
+
+        if (!response.IsSuccessStatusCode)
+        {
+            throw new Exception("Failed to got a response from OpenWeather");
+        }
+
+        var jsonResponse = await response.Content.ReadAsStringAsync();
+        var openWeatherForecast = System.Text.Json.JsonSerializer.Deserialize<OpenWeatherAverageForecast>(jsonResponse);
+        Console.WriteLine($"{JsonConvert.SerializeObject(openWeatherForecast)}");
+
+        return new AverageForecast
+            (
+                60,
+                unit.ToShorthand().ToString(),
+                71.83,
+                72.34,
+                false
+            );
     }
 
     private Uri buildUri(string baseAddress, string zipcode, WeatherUnit unit, int count = 1)
