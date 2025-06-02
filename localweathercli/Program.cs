@@ -1,5 +1,6 @@
 ﻿
 using DotMake.CommandLine;
+using System.Text.Json;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 using System.Web;
@@ -20,6 +21,9 @@ public class RootWithNestedChildrenCliCommand
     [CliCommand(Description = "Gets the Current Weather for a given Zipcode")]
     public class GetCurrentWeatherSubCliCommand
     {
+        [CliOption(Description = "Type of output", AllowedValues = ["text", "json", "yaml"])]
+        public string Output { get; set; } = "text";
+
         [CliArgument(Description = "Where you want to get the weather")]
         public string Zipcode { get; set; }
 
@@ -44,9 +48,27 @@ public class RootWithNestedChildrenCliCommand
 
                 Uri uri = uriBuilder.Uri;
                 var response = await this.client.GetAsync(uri);
-
                 var jsonResponse = await response.Content.ReadAsStringAsync();
-                Console.WriteLine($"{JsonObject.Parse(jsonResponse)}\n");
+                var parsedResponse = JsonValue.Parse(jsonResponse);
+
+                 switch (this.Output)
+                {
+                    case "json":
+                        Console.WriteLine($"{parsedResponse}\n");
+                        break;
+                    case "yaml":
+                        Console.WriteLine($"currentTemperature: {parsedResponse["currentTemperature"]}");
+                        Console.WriteLine($"unit: {parsedResponse["unit"]}");
+                        Console.WriteLine($"lat: {parsedResponse["lat"]}");
+                        Console.WriteLine($"lon: {parsedResponse["lon"]}");
+                        Console.WriteLine($"rainPossibleToday: {parsedResponse["rainPossibleToday"]}");
+                        break;
+                    default:
+                        Console.WriteLine($"Location: {this.Zipcode}");
+                        Console.WriteLine($"Current Temperature: {parsedResponse["currentTemperature"]}°{parsedResponse["unit"]}");
+                        Console.WriteLine($"Rain Possible Today: {parsedResponse["rainPossibleToday"]}");
+                        break;
+                }
             }
         }
     }
@@ -54,6 +76,9 @@ public class RootWithNestedChildrenCliCommand
     [CliCommand(Description = "Gets the Average Weather for a given Zipcode over 2 - 5 days")]
     public class GetAverageWeatherSubCliCommand
     {
+        [CliOption(Description = "Type of output", AllowedValues = ["text", "json", "yaml"])]
+        public string Output { get; set; } = "text";
+
         [CliArgument(Description = "Where you want to get the weather")]
         public string Zipcode { get; set; }
 
@@ -84,7 +109,26 @@ public class RootWithNestedChildrenCliCommand
                 var response = await this.client.GetAsync(uri);
 
                 var jsonResponse = await response.Content.ReadAsStringAsync();
-                Console.WriteLine($"{JsonObject.Parse(jsonResponse)}\n");
+                var parsedResponse = JsonValue.Parse(jsonResponse);
+
+                 switch (this.Output)
+                {
+                    case "json":
+                        Console.WriteLine($"{parsedResponse}\n");
+                        break;
+                    case "yaml":
+                        Console.WriteLine($"averageTemperature: {parsedResponse["averageTemperature"]}");
+                        Console.WriteLine($"unit: {parsedResponse["unit"]}");
+                        Console.WriteLine($"lat: {parsedResponse["lat"]}");
+                        Console.WriteLine($"lon: {parsedResponse["lon"]}");
+                        Console.WriteLine($"rainPossibleInPeriod: {parsedResponse["rainPossibleInPeriod"]}");
+                        break;
+                    default:
+                        Console.WriteLine($"Location: {this.Zipcode}");
+                        Console.WriteLine($"Average Temperature ({this.Count} Day Forecast): {parsedResponse["averageTemperature"]}°{parsedResponse["unit"]}");
+                        Console.WriteLine($"Rain Possible during this time: {parsedResponse["rainPossibleInPeriod"]}");
+                        break;
+                }
             }
         }
     }
