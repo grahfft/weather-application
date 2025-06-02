@@ -23,7 +23,7 @@ public class RootWithNestedChildrenCliCommand
         [CliArgument(Description = "Where you want to get the weather")]
         public string Zipcode { get; set; }
 
-        [CliArgument(Description = "Unit of Measure of the temperature ")]
+        [CliArgument(Description = "Unit of Measure of the temperature ", AllowedValues = ["fahrenheit", "celsius", "kelvin"])]
         public string Unit { get; set; }
 
         private HttpClient client = new();
@@ -40,6 +40,44 @@ public class RootWithNestedChildrenCliCommand
                 var uriBuilder = new UriBuilder($"http://localhost:5183/Weather/Current/{this.Zipcode}");
                 var parameters = HttpUtility.ParseQueryString(string.Empty);
                 parameters["unit"] = this.Unit;
+                uriBuilder.Query = parameters.ToString();
+
+                Uri uri = uriBuilder.Uri;
+                var response = await this.client.GetAsync(uri);
+
+                var jsonResponse = await response.Content.ReadAsStringAsync();
+                Console.WriteLine($"{JsonObject.Parse(jsonResponse)}\n");
+            }
+        }
+    }
+
+    [CliCommand(Description = "Gets the Average Weather for a given Zipcode over 2 - 5 days")]
+    public class GetAverageWeatherSubCliCommand
+    {
+        [CliArgument(Description = "Where you want to get the weather")]
+        public string Zipcode { get; set; }
+
+        [CliArgument(Description = "Unit of Measure of the temperature", AllowedValues = ["fahrenheit", "celsius", "kelvin"])]
+        public string Unit { get; set; }
+
+        [CliArgument(Description = "Number of days to get the Average")]
+        public string Count { get; set; }
+
+        private HttpClient client = new();
+
+        public async Task RunAsync(CliContext context)
+        {
+            if (context.IsEmptyCommand())
+            {
+                context.ShowHelp();
+            }
+            else
+            {
+                Console.WriteLine("Getting Average weather");
+                var uriBuilder = new UriBuilder($"http://localhost:5183/Weather/Average/{this.Zipcode}");
+                var parameters = HttpUtility.ParseQueryString(string.Empty);
+                parameters["unit"] = this.Unit;
+                parameters["count"] = this.Count;
                 uriBuilder.Query = parameters.ToString();
 
                 Uri uri = uriBuilder.Uri;
