@@ -13,11 +13,11 @@ public class WeatherController : ControllerBase
     }
 
     [HttpGet("{zipcode}")]
-    public async Task<ActionResult<WeatherForecast>> GetCurrentWeather([FromRoute] GetCurrentWeatherRouteRequest route, [FromQuery] GetCurrentWeatherQueryRequest query)
+    public async Task<ActionResult<CurrentForecast>> GetCurrentWeather([FromRoute] GetCurrentWeatherRouteRequest route, [FromQuery] GetCurrentWeatherQueryRequest query)
     {
         try
         {
-            return await this.weatherService.getCurrentForecastAsync(route.zipcode, query.unit.ToWeatherUnit());
+            return await this.weatherService.getCurrentForecastAsync(route.Zipcode, query.Units.ToWeatherUnit());
         }
         catch (Exception ex)
         {
