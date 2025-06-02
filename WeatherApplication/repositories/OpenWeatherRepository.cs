@@ -4,9 +4,12 @@ using Newtonsoft.Json;
 public class OpenWeatherRepository : IWeatherRepository
 {
     private HttpClient client = new();
+
+    private const string CURRENT_FORECAST_ENDPOINT = "https://api.openweathermap.org/data/2.5/weather";
+
     public async Task<CurrentForecast> getCurrentForecastAsync(string zipcode, WeatherUnit unit)
     {
-        var uri = this.buildUri(zipcode, unit);
+        var uri = this.buildUri(CURRENT_FORECAST_ENDPOINT, zipcode, unit);
         var response = await this.client.GetAsync(uri);
         var jsonResponse = await response.Content.ReadAsStringAsync();
         var openWeatherForecast = System.Text.Json.JsonSerializer.Deserialize<OpenWeatherForecast>(jsonResponse);
@@ -26,9 +29,9 @@ public class OpenWeatherRepository : IWeatherRepository
             );
     }
 
-    private Uri buildUri(string zipcode, WeatherUnit unit, int count = 1)
+    private Uri buildUri(string baseAddress, string zipcode, WeatherUnit unit, int count = 1)
     {
-        var uriBuilder = new UriBuilder($"https://api.openweathermap.org/data/2.5/weather");
+        var uriBuilder = new UriBuilder(baseAddress);
         var parameters = HttpUtility.ParseQueryString(string.Empty);
 
         parameters["zip"] = zipcode.Substring(0, 5);
