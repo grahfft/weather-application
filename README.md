@@ -1,33 +1,14 @@
 # weather-application
 DCU interview Weather Application
 
-### Building
-
-```dotnet build```
-
-Works in the solution directory
-
-### Run
-
-```dotnet run --project WeatherApplication/WeatherApplication.csproj```
-
-Starts the server up on `localhost:5183`
-
-### Swagger
-
-```http://localhost:5183/swagger```
-
-Displays all endpoints of the service
-
-### Testing
-
-```dotnet test```
-
-Executes tests within the test project
+### Table of Contents
+- [Setup Weather Service](docs/SETUP.md)
+- [Running the Service](docs/RUNNING.md)
+- [Testing the Service](docs/TESTING.md)
 
 ### CLI commands
 
-Command base is `dotnet run --project weathercli --`
+Command base is `dotnet run --project localweathercli --`
 
 ### Installing New CLI tool
 Go into tool directory and pack
