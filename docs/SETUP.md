@@ -1,6 +1,6 @@
 # Set up Weather Service
 
-### Terminal
+## Terminal
 This service uses the environment variable `OpenWeatherAppId` that can be found when logging into Open Weather.
 
 This is used to make queries against OpenWeather so while the service will start up without this variable, you won't be able to send commands to Open Weather
@@ -8,7 +8,5 @@ This is used to make queries against OpenWeather so while the service will start
 To set up the environment variable either in your current terminal or in your `~/.bashrc` or `~./zshrc` file add:
 ```export OpenWeatherAppId="YOUR_ID_GOES_HERE"```
 
-### Docker
-TBD
-
-Set for a future state
+## Docker
+Did not get to finish
