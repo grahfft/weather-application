@@ -9,4 +9,4 @@ To set up the environment variable either in your current terminal or in your `~
 ```export OpenWeatherAppId="YOUR_ID_GOES_HERE"```
 
 ## Docker
-Did not get to finish
+Dockerfile exists but it has not been tested
